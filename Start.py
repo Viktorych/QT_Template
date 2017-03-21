@@ -1,12 +1,10 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor
-from PyQt5.QtGui import QPalette
-from PyQt5.QtWidgets import QApplication, qApp
+
+from PyQt5.QtWidgets import QApplication
 from time import time, sleep
 
-from PyQt5.QtWidgets import QStyleFactory
 
-from QT import App_MainWindow,App_Splash,App_dark_palette
+
+from QT import App_MainWindow, App_Splash
 
 
 from App import App_Variable
