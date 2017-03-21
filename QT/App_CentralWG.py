@@ -10,13 +10,16 @@ from PyQt5.QtWidgets import *
 
 from App.App_Variable import Variable
 from QT import App_PropertiesWidget
+from QT.App_LogWiget import LogWiget
+
+
 class CWG(QWidget):
     """Центральный вигет"""
 
     def __init__(self,Variable, parent=None):
         super().__init__(parent)
         self.Variable = Variable
-        print (self.Variable.A)
+        #print (self.Variable.A)
         self.treeview  = App_PropertiesWidget.PropertiesWidget(2,self.Variable)
         self.treeview.setHeaderHidden(True)
 
@@ -85,8 +88,27 @@ class CWG(QWidget):
 
 
         self.treeview.setAlternatingRowColors(True)
-        vbox = QHBoxLayout()
+        #vbox = QHBoxLayout()
+        self.LogWiget=LogWiget()
+        self.LogWiget.setMaximumHeight(300)
+        self.LogWiget.setMinimumHeight(100)
+        self.VWiget=QWidget()
+        vbox = QVBoxLayout()
+        splitterV = QSplitter(Qt.Horizontal)
+        splitterV.addWidget(self.treeview)
+        splitterV.addWidget(table)
+        vbox.addWidget(splitterV)
+        self.VWiget.setLayout(vbox)
+
+        splitterH = QSplitter(Qt.Vertical)
+        splitterH.addWidget(self.VWiget)
+        splitterH.addWidget(self.LogWiget)
+        #splitterH.scroll(100,100)
+        hbox = QHBoxLayout()
         #vbox.addStretch(1)
-        vbox.addWidget(self.treeview)
-        vbox.addWidget(table)
-        self.setLayout(vbox)
+        hbox.addWidget(splitterH)
+
+        #vbox.addWidget(table)
+        self.setLayout(hbox)
+    def addLog (self, txt):
+        self.LogWiget.add(txt)

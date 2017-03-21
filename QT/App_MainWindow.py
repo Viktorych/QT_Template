@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         self.settingAction = QAction(QIcon('Images/setting.png'), 'Насторойки', self)
         # self.settingAction.setShortcut('Ctrl+Q')
         self.settingAction.setStatusTip('Насторойки программы')
-        # self.settingAction.triggered.connect(qApp.quit)
+        self.settingAction.triggered.connect(self.Setting)
 
         self.printAction = QAction(QIcon('Images/print.png'), 'Печать', self)
         # self.printAction.setShortcut('Ctrl+Q')
@@ -106,8 +106,15 @@ class MainWindow(QMainWindow):
                           '''О программе.<br />
                               This accepts HTML formatting <b> bold</b>''')
 
+    def Setting (self):
+        self.Variable.save()
+        self.CentralWG.addLog(self.Variable)
+
     def Save (self):
         self.Variable.save()
+        self.CentralWG.addLog("Загрузка")
 
     def Load(self):
         self.Variable.load()
+        self.CentralWG.addLog("Чтение")
+

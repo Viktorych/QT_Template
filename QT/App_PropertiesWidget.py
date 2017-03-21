@@ -4,12 +4,14 @@ from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtGui import QStandardItemModel
 from PyQt5.QtWidgets import QHBoxLayout
-from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QLineEdit,QLabel
 from PyQt5.QtWidgets import QTreeView
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QSizePolicy
 from App.App_Variable import Variable
+
+
 
 
 
@@ -25,28 +27,32 @@ class Parameter(QWidget):
         #for i in range(num_components):
         self.c = QLineEdit(str(value), self)
         #c.textChanged.connect(self.doEdit)
-
+        self.ed_izm=QLabel("m<sup>3</sup>")
         self.c.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.c.setAlignment(Qt.AlignRight)
         self.c.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
         #self.components.append(c)
+
         layout.addWidget(self.c, stretch=1)
+        layout.addWidget(self.ed_izm)
         """
         for i in range(num_components, max_columns):
             lbl = QLabel('')
             lbl.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
             layout.addWidget(lbl, stretch=1)
         """
-        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setContentsMargins(0, 0, 20, 0)
         self.c.editingFinished.connect(self._doEdit)
         self.setLayout(layout)
     def _doEdit(self):
-        print ("Эдит")
+        pass
+        #print ("Эдит")
 
 class PropertiesWidget(QTreeView):
 
     def __init__(self, columns, Variable, *args, **kwargs):
         super(PropertiesWidget, self).__init__(*args, **kwargs)
-
+        self.setMaximumWidth(400)
         self.model = QStandardItemModel(self)
         self.setModel(self.model)
         self.model.setColumnCount(columns)
