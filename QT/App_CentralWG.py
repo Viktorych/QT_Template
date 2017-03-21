@@ -7,14 +7,19 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
+
+from App.App_Variable import Variable
 from QT import App_PropertiesWidget
 class CWG(QWidget):
     """Центральный вигет"""
 
-    def __init__(self, parent=None):
+    def __init__(self,Variable, parent=None):
         super().__init__(parent)
-        self.treeview  = App_PropertiesWidget.PropertiesWidget(2)
+        self.Variable = Variable
+        print (self.Variable.A)
+        self.treeview  = App_PropertiesWidget.PropertiesWidget(2,self.Variable)
         self.treeview.setHeaderHidden(True)
+
         #for i in range(1, 2):
             #self.treeview.setColumnWidth(i, 200)
         #self.treeview.setHeader(QHeaderView())
@@ -55,10 +60,10 @@ class CWG(QWidget):
         table.setWindowTitle("Set QWidget for Entire QTableWidget Column")
         table.resize(400, 250)
         table.setRowCount(4)
-        table.setColumnCount(3)
+        table.setColumnCount(4)
 
-        table.setHorizontalHeaderLabels(["HEADER 1", "HEADER 2", "HEADER 3", "HEADER 4"])
-
+        table.setHorizontalHeaderLabels(["Столбец 1", "Столбец 3", "Столбец 2", "Столбец 4"])
+        table.setVerticalHeaderLabels(["Строка 1", "Строка 3", "Строка 2", "Строка 4"])
         table.setItem(0, 0, QtWidgets.QTableWidgetItem("ITEM 1_1"))
         table.setItem(0, 1, QtWidgets.QTableWidgetItem("ITEM 1_2"))
 
@@ -72,10 +77,10 @@ class CWG(QWidget):
         table.setItem(3, 1, QtWidgets.QTableWidgetItem("ITEM 4_2"))
 
         # Add Widget to the rightmost Element of First Row
-        table.setItem(0, 2, tableItem)
+        #table.setItem(0, 2, tableItem)
 
         # Add QPushButton to the rightmost QTableWidgetItem on first row
-        table.setCellWidget(0, 2, QtWidgets.QPushButton("Cell Widget"));
+        #table.setCellWidget(0, 2, QtWidgets.QPushButton("Cell Widget"));
 
 
 

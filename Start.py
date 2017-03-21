@@ -9,6 +9,11 @@ from PyQt5.QtWidgets import QStyleFactory
 from QT import App_MainWindow,App_Splash,App_dark_palette
 
 
+from App import App_Variable
+
+
+Variable = App_Variable.Variable()
+
 if __name__ == '__main__':
     import sys
     app = QApplication(sys.argv)
@@ -26,7 +31,7 @@ if __name__ == '__main__':
     while time() - start < 1:
         sleep(0.001)
         app.processEvents()
-    window = App_MainWindow.MainWindow()
+    window = App_MainWindow.MainWindow(Variable)
 
     window.show()
     splash.finish(window)

@@ -2,22 +2,31 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction, qApp
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtWidgets import QMessageBox
-
+from App import App_Variable
 from QT import App_CentralWG
 
 class MainWindow(QMainWindow):
     """Главное окно приложения"""
-    def __init__(self):
+    def __init__(self, Variable):
         super().__init__()
         self.setAction()
         self.setMenuBar()
         self.setToolBar()
-        self.setGeometry(300, 300, 800, 600)
+        self.setGeometry(300, 300, 1200, 600)
         self.setWindowTitle('QT Программа')
         self.statusBar().showMessage('Готово')
         self.setWindowIcon(QIcon('Images/app_icon.png'))  # App Icon
-        self.CentralWG=App_CentralWG.CWG()
+
+        self.Variable = Variable
+        #print (self.Variable.)
+        self.CentralWG=App_CentralWG.CWG(self.Variable)
         self.setCentralWidget(self.CentralWG)
+
+
+
+
+
+
 
     def setAction(self):
         self.exitAction = QAction(QIcon('Images/Exit.png'), 'Выход', self)

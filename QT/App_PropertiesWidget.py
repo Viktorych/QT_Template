@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import QTreeView
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QSizePolicy
+from App.App_Variable import Variable
 
 
 
@@ -38,7 +39,7 @@ class Parameter(QWidget):
 
 class PropertiesWidget(QTreeView):
 
-    def __init__(self, columns, *args, **kwargs):
+    def __init__(self, columns, Variable, *args, **kwargs):
         super(PropertiesWidget, self).__init__(*args, **kwargs)
 
         self.model = QStandardItemModel(self)
@@ -52,16 +53,22 @@ class PropertiesWidget(QTreeView):
         self.last_item = 0
         self.last_item = QStandardItem()
         self.parameters = {}
+        self.Variable=Variable
 
-        self.begin_group("Группа 1", "Группа 1")
-        self.add_vec1("Переменная А", 1)
-        self.add_vec1("Переменная B", 10)
+        #print (self.Variable.A["Группа 1"])
+        #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
+        self.begin_group(self.Variable.A[0])
+        for k, v in self.Variable.A.items():
+            if k!=0:
+                self.add_Parameter(k, v)
+        #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
 
-    def begin_group(self, name, key):
+            #self.add_Parameter("Переменная B", 10)
+
+    def begin_group(self, name):
         root = QStandardItem(name)
         root.setEditable(False)
-        if not key:
-            root.setData(key)
+
         self.model.appendRow([root])
         self.last_item = root
 
@@ -86,7 +93,7 @@ class PropertiesWidget(QTreeView):
 
         self.expand(child.index().parent())
 
-    def add_vec1(self, key, value=[0]):
+    def add_Parameter(self, key, value=[0]):
         widget = Parameter(value,  parent=self)
         self.append_row(key, widget)
 
