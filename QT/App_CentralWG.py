@@ -7,41 +7,47 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-
+from QT import App_PropertiesWidget
 class CWG(QWidget):
     """Центральный вигет"""
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.treeview  = QTreeView(self)
+        self.treeview  = App_PropertiesWidget.PropertiesWidget(2)
         self.treeview.setHeaderHidden(True)
         #for i in range(1, 2):
             #self.treeview.setColumnWidth(i, 200)
         #self.treeview.setHeader(QHeaderView())
         #self.treeview.itemModel.setHeaderData(0, QtCore.Qt.Horizontal, 'Column {}'.format("0"))
-        e2 = QLineEdit()
-        e2.setText("10")
-        e2.setValidator(QDoubleValidator(0.99, 99.99, 2))
-        model = QStandardItemModel()
-        rootNode = model.invisibleRootItem()
-        branch1 = QStandardItem("Группа переменных 1")
-        branch1.appendRow([QStandardItem("Переменная A"), None])
-        childnode = QStandardItem("Переменная B")
-        branch1.appendRow([childnode, None])
+        # """
+        # e2 = QLineEdit()
+        # e2.setText("10")
+        # e2.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        # """
+        # model = QStandardItemModel()
+        # rootNode = model.invisibleRootItem()
+        # branch1 = QStandardItem("Группа переменных 1")
+        # branch1.appendRow([QStandardItem("Переменная A"), None])
+        # childnode = QStandardItem("Переменная B")
+        # branch1.appendRow([childnode, None])
+        #
+        # branch2 = QStandardItem("Группа переменных 2")
+        # branch2.appendRow([QStandardItem("Переменная C"), None])
+        # branch2.appendRow([QStandardItem("Переменная D"), None])
+        # branch2.appendRow([QStandardItem("Переменная E"), None])
+        # branch2.appendRow([QStandardItem("Переменная F"), None])
+        # branch2.appendRow([QStandardItem("Переменная J"), None])
+        #
+        # rootNode.appendRow([branch1, None])
+        # rootNode.appendRow([branch2, None])
 
-        branch2 = QStandardItem("Группа переменных 2")
-        branch2.appendRow([QStandardItem("Переменная C"), None])
-        branch2.appendRow([QStandardItem("Переменная D"), None])
-        branch2.appendRow([QStandardItem("Переменная E"), None])
-        branch2.appendRow([QStandardItem("Переменная F"), None])
-        branch2.appendRow([QStandardItem("Переменная J"), None])
+        #self.treeview.setModel(model)
+        #self.treeview.setColumnWidth(0, 150)
+        #self.treeview.expandAll()
 
-        rootNode.appendRow([branch1, None])
-        rootNode.appendRow([branch2, None])
 
-        self.treeview.setModel(model)
-        self.treeview.setColumnWidth(0, 150)
-        self.treeview.expandAll()
+
+
         #self.addWidget(self.treeview)
         table = QtWidgets.QTableWidget()
         tableItem = QtWidgets.QTableWidgetItem()
