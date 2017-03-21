@@ -52,11 +52,11 @@ class MainWindow(QMainWindow):
         self.openFileAction = QAction(QIcon('Images/Open.png'), 'Открыть', self)
         # self.openFileAction.setShortcut('Ctrl+Q')
         self.openFileAction.setStatusTip('Открыть файл')
-        # self.openFileAction.triggered.connect(qApp.quit)
+        self.openFileAction.triggered.connect(self.Load)
         self.saveFileAction = QAction(QIcon('Images/Save.png'), 'Сохранить', self)
         # self.saveFileAction.setShortcut('Ctrl+Q')
         self.saveFileAction.setStatusTip('Сохранить в файл')
-        # self.saveFileAction.triggered.connect(qApp.quit)
+        self.saveFileAction.triggered.connect(self.Save)
 
         self.settingAction = QAction(QIcon('Images/setting.png'), 'Насторойки', self)
         # self.settingAction.setShortcut('Ctrl+Q')
@@ -105,3 +105,9 @@ class MainWindow(QMainWindow):
         QMessageBox.about(self, 'О программе',
                           '''О программе.<br />
                               This accepts HTML formatting <b> bold</b>''')
+
+    def Save (self):
+        self.Variable.save()
+
+    def Load(self):
+        self.Variable.load()

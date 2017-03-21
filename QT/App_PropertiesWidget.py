@@ -23,11 +23,13 @@ class Parameter(QWidget):
 
         layout = QHBoxLayout(self)
         #for i in range(num_components):
-        c = QLineEdit(str(value), self)
-        c.setValidator(QDoubleValidator(0.99, 99.99, 2))
-        c.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
+        self.c = QLineEdit(str(value), self)
+        #c.textChanged.connect(self.doEdit)
+
+        self.c.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.c.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
         #self.components.append(c)
-        layout.addWidget(c, stretch=1)
+        layout.addWidget(self.c, stretch=1)
         """
         for i in range(num_components, max_columns):
             lbl = QLabel('')
@@ -35,7 +37,10 @@ class Parameter(QWidget):
             layout.addWidget(lbl, stretch=1)
         """
         layout.setContentsMargins(0, 0, 0, 0)
+        self.c.editingFinished.connect(self._doEdit)
         self.setLayout(layout)
+    def _doEdit(self):
+        print ("Эдит")
 
 class PropertiesWidget(QTreeView):
 
@@ -61,6 +66,12 @@ class PropertiesWidget(QTreeView):
         for k, v in self.Variable.A.items():
             if k!=0:
                 self.add_Parameter(k, v)
+        self.end_group()
+        self.begin_group(self.Variable.B[0])
+        for k, v in self.Variable.B.items():
+            if k != 0:
+                self.add_Parameter(k, v)
+        self.end_group()
         #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
 
             #self.add_Parameter("Переменная B", 10)
@@ -93,7 +104,7 @@ class PropertiesWidget(QTreeView):
 
         self.expand(child.index().parent())
 
-    def add_Parameter(self, key, value=[0]):
+    def add_Parameter(self, key, value=0):
         widget = Parameter(value,  parent=self)
         self.append_row(key, widget)
 
