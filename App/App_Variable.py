@@ -1,39 +1,78 @@
-import marshal
+
 import pickle
 
+from PyQt5.QtWidgets import QFileDialog
 
-class Variable:
+
+class Property():
+    def __init__(self, key, name, value, ed_izm, types):
+        super().__init__()
+        self.Key=key
+        self.Name=name
+        self.Value=value
+        self.Ed_izm=ed_izm#"m<sup>3</sup>"
+        self.Type=types # 0-группа, 1-переменная
+    def __str__(self):
+        return "key={}, Name={}, Value={}, Ed_izm={}, Тип={}".format(self.Key,self.Name,self.Value, self.Ed_izm, self.Type)
+
+class Variables:
     def __init__(self):
         super().__init__()
-        #self.A={0:"Группа 1","Пременная 1":10,"Пременная 2":20.2}
-        self.A = {0: "Группа 1", "Пременная 1": 1}
-        self.B = {0: "Группа 2", "Пременная 1": 10, "Пременная 2": 20.2}
-        #print (len (self.A))
+        self.List = [\
+            Property(0,"Входные данные к расчету",0,"",0),\
+                Property(1,"Угол подачи, β",20,"гр.",1),\
+            #"г/сm<sup>3</sup>
+                Property(2, "Средний угол наклона образующей \nвалка к оси прокатки, ɑ", 12, "гр.", 1), \
+                Property(3, "Длина калибрующего участка, lк", 8, "mm", 1), \
+                Property(4, "Частота вращения валков, n", 180, "мин<sup>-1</sup>", 1), \
+                Property(5, "Отношение коэффициентов осевой и \nтангенциальной скорости на выходе \nиз очага деформации, η0/ηТ",0.9, "", 1), \
+                Property(4, "Kоэфицент использования стана, K", 1, "", 1), \
+
+
+            Property(4, "Группа 2", 0, "", 0), \
+                Property(5, "Переменная 1", 10, "m<sup>3</sup>", 1), \
+                Property(6, "Переменная 2", 10, "m<sup>3</sup>", 1), \
+                Property(7, "Переменная 2", 10, "m<sup>3</sup>", 1),
+                     ]
     def __str__(self, *args, **kwargs):
         str=""
-        for k, v in self.A.items():
-            str="{} {} = {}\n".format(str,k,v)
-        for k, v in self.B.items():
-            str = "{} {} = {}\n".format(str, k, v)
+        for k in self.List:
+            str="{} {}\n".format (str, k)
         return str
-    def test (self):
-        pass
+    def info (self):
+        str=""
+        for k in self.List:
+            str="{} {}<br>".format (str, k)
+        return str
 
-    def save(self):
+    def save(self, file):
         #ouf = open('datafile.dat', 'w')
         #marshal.dump(self, ouf,1)
         #ouf.close()
-        with open('data.pickle', 'wb') as f:
+        with file:
             # Pickle the 'data' dictionary using the highest protocol available.
-            pickle.dump(self, f, pickle.HIGHEST_PROTOCOL)
+            pickle.dump(self, file, pickle.HIGHEST_PROTOCOL)
         #print(self)
 
-    def load(self):
+    def load(self, file):
         #ouf = open('datafile.dat', 'w')
         #marshal.dump(self, ouf,1)
         #ouf.close()
-        with open('data.pickle', 'rb') as f:
-            # The protocol version used is detected automatically, so we do not
-            # have to specify it.
-            self = pickle.load(f)
+        # fname = QFileDialog.getOpenFileName(self, 'Open file', './')
+        #
+        # if fname[0]:
+        #     # #f = open(fname[0], 'r')
+        #     #
+        #     # with f:
+        #     #     data = f.read()
+        #     #     self.textEdit.setText(data)
+        #     f = open(fname[0], 'rb')
+        with  file:
+                # The protocol version used is detected automatically, so we do not
+                # have to specify it.
+            #print (file)
+            new = pickle.load(file)
+        self.List=new.List
         #print (self)
+
+

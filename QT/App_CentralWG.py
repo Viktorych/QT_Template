@@ -8,7 +8,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from App.App_Variable import Variable
+from App.App_Variable import Variables
 from QT import App_PropertiesWidget
 from QT.App_LogWiget import LogWiget
 
@@ -110,5 +110,8 @@ class CWG(QWidget):
 
         #vbox.addWidget(table)
         self.setLayout(hbox)
-    def addLog (self, txt):
-        self.LogWiget.add(txt)
+
+
+    # def addLog (self, txt, color):
+    #
+    #     self.LogWiget.add(txt, color)

@@ -15,12 +15,21 @@ class LogWiget(QWidget):
         self.textEdit = QTextEdit(self)
 
         self.textEdit.setStyleSheet("background: grey")
-        self.textEdit.setText("<b style='color:#ffFF00'>Cтарт приложения</span></b>")
-        self.textEdit.append("<b style='color:#ff0000'>Другой текст</span></b>")
-        vbox = QHBoxLayout()
+        #self.textEdit.setText("<b style='color:#ffFF00'>Cтарт приложения</span></b>")
+        #self.textEdit.append("<b style='color:#ff0000'>Другой текст</span></b>")
+        self.add("Cтарт приложения",2)
+        _vbox = QHBoxLayout()
 
-        vbox.addWidget(self.textEdit)
+        _vbox.addWidget(self.textEdit)
 
-        self.setLayout(vbox)
-    def add(self, txt):
-        self.textEdit.append("<b style='color:#ffffff'>{}</span></b>".format(txt))
+        self.setLayout(_vbox)
+
+
+    def add(self, txt, color):
+        colors = {0: "<b style='color:#ff0000'>{}</span></b>", \
+                  1: "<b style='color:#00ff00'>{}</span></b>", \
+                  2: "<b style='color:#0000ff'>{}</span></b>"}
+
+        #self.LogWiget.add(colors[color].format(txt))
+        print (txt)
+        self.textEdit.append(colors[color].format(txt))

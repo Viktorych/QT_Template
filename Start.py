@@ -10,7 +10,7 @@ from QT import App_MainWindow, App_Splash
 from App import App_Variable
 
 
-Variable = App_Variable.Variable()
+Variables = App_Variable.Variables()
 
 if __name__ == '__main__':
     import sys
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     while time() - start < 1:
         sleep(0.001)
         app.processEvents()
-    window = App_MainWindow.MainWindow(Variable)
+    window = App_MainWindow.MainWindow(Variables)
 
     window.show()
     splash.finish(window)

@@ -9,30 +9,34 @@ from PyQt5.QtWidgets import QTreeView
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QSizePolicy
-from App.App_Variable import Variable
+from App.App_Variable import Variables
 
 
 
-
+from  App import App_Variable
 
 class Parameter(QWidget):
     value_changed = pyqtSignal(object)
-
-    def __init__(self, value, parent=None, *args, **kwargs):
+    #prop=App_Variable.Property()
+    #prop.Ed_izm
+    def __init__(self,Property, parent=None, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         #self.components = []
-
+        self.prop=Property
+        #self.prop.
 
         layout = QHBoxLayout(self)
         #for i in range(num_components):
-        self.c = QLineEdit(str(value), self)
+        self.c = QLineEdit(str(self.prop.Value), self)
         #c.textChanged.connect(self.doEdit)
-        self.ed_izm=QLabel("m<sup>3</sup>")
-        self.c.setValidator(QDoubleValidator(0.99, 99.99, 2))
+        self.ed_izm=QLabel(self.prop.Ed_izm)
+        validator=QDoubleValidator(0.99, 99.99, 2)
+        validator.setNotation(QDoubleValidator.StandardNotation)
+        self.c.setValidator(validator)
         self.c.setAlignment(Qt.AlignRight)
         self.c.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Expanding)
         #self.components.append(c)
-
+        self.c.setMaximumWidth(100)
         layout.addWidget(self.c, stretch=1)
         layout.addWidget(self.ed_izm)
         """
@@ -45,42 +49,65 @@ class Parameter(QWidget):
         self.c.editingFinished.connect(self._doEdit)
         self.setLayout(layout)
     def _doEdit(self):
-        pass
+        self.prop.Value=self.c.text()
+        print (self.prop)
+        #pass
         #print ("Эдит")
 
 class PropertiesWidget(QTreeView):
 
-    def __init__(self, columns, Variable, *args, **kwargs):
+    def __init__(self, columns, Variables, *args, **kwargs):
         super(PropertiesWidget, self).__init__(*args, **kwargs)
         self.setMaximumWidth(400)
+
+        self.Variables=Variables
+        self.reload()
+        #self.begin_group("test")
+
+        #self.end_group()
+
+        #print (self.Variable.A["Группа 1"])
+        #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
+
+        # self.begin_group(self.Variable.A[0])
+        # for k, v in self.Variable.A.items():
+        #     if k!=0:
+        #         self.add_Parameter(k, v)
+        # self.end_group()
+        # self.begin_group(self.Variable.B[0])
+        # for k, v in self.Variable.B.items():
+        #     if k != 0:
+        #         self.add_Parameter(k, v)
+        # self.end_group()
+        # #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
+        #
+        #     #self.add_Parameter("Переменная B", 10)
+
+    def reload(self):
         self.model = QStandardItemModel(self)
         self.setModel(self.model)
-        self.model.setColumnCount(columns)
+        self.model.setColumnCount(2)
         self.model.setHeaderData(0, Qt.Horizontal, "Пременная")
         self.model.setHeaderData(1, Qt.Horizontal, "Значение")
-        self.setColumnWidth(0,200)
+        self.setColumnWidth(0, 250)
         self.setColumnWidth(1, 100)
         self.setFocusPolicy(Qt.NoFocus)
         self.last_item = 0
         self.last_item = QStandardItem()
         self.parameters = {}
-        self.Variable=Variable
-
-        #print (self.Variable.A["Группа 1"])
-        #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
-        self.begin_group(self.Variable.A[0])
-        for k, v in self.Variable.A.items():
-            if k!=0:
-                self.add_Parameter(k, v)
+        #print (self.Variables)
+        s = 0
+        for p in self.Variables.List:
+            if p.Type == 0:
+                if s != 0:
+                    self.end_group()
+                self.begin_group(p.Name)
+            elif p.Type == 1:
+                self.add_Parameter(p)
+            s = 1
         self.end_group()
-        self.begin_group(self.Variable.B[0])
-        for k, v in self.Variable.B.items():
-            if k != 0:
-                self.add_Parameter(k, v)
-        self.end_group()
-        #self.begin_group(self.Variable.A["Группа 1"], "Группа 1")
 
-            #self.add_Parameter("Переменная B", 10)
+
 
     def begin_group(self, name):
         root = QStandardItem(name)
@@ -110,7 +137,7 @@ class PropertiesWidget(QTreeView):
 
         self.expand(child.index().parent())
 
-    def add_Parameter(self, key, value=0):
-        widget = Parameter(value,  parent=self)
-        self.append_row(key, widget)
+    def add_Parameter(self, param):
+        widget = Parameter(param,  parent=self)
+        self.append_row(param.Name, widget)
 
